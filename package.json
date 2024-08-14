@@ -1,0 +1,32 @@
+{
+  "name": "tasks-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MontassarREBHI/tasks-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MontassarREBHI/tasks-manager/issues"
+  },
+  "homepage": "https://github.com/MontassarREBHI/tasks-manager#readme",
+  "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "framer-motion": "^11.3.21",
+    "mongoose": "^8.5.2",
+    "react-toastify": "^10.0.5",
+    "toastify": "^2.0.1"
+  }
+}
