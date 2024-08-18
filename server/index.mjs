@@ -1,9 +1,11 @@
 import express from "express";
 const app = express();
 import cors from "cors";
+import { connectDB } from "./config.js";
 
 app.use(cors());
 app.use(express.json());
+connectDB();
 
 const port = 3000;
 
