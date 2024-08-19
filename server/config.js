@@ -8,6 +8,7 @@ export const connectDB = async () => {
     await connect(process.env.MONGODB_URI);
     console.log("Database connected successfully!");
   } catch (err) {
-    console.error("Connection to dabase failed", err);
+    console.error("Connection to dabase failed :", err);
+    process.exit(1);
   }
 };
