@@ -12,8 +12,8 @@ const port = 3000;
 
 app.use("/api/tasks", tasksRouter);
 
-app.get("/", (req, res) => {
-  res.send("hello from the backend");
+app.get("/test", (req, res) => {
+  res.status(200).json({ message: "Test route working!" });
 });
 
 app.listen(port, () => {

@@ -17,3 +17,42 @@ export const addTask = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getAllTasks = async (req, res) => {
+  try {
+    const allTasks = await Task.find();
+    res
+      .status(200)
+      .json({ data: allTasks, message: "List of all tasks retrieved" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteTaskByID = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const deletedTask = await Task.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ data: deletedTask, message: "task deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateTaskById = async (req, res) => {
+  const { id, title, description, dueDate, completed } = req.body;
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      id,
+      { title, description, dueDate, completed },
+      { new: true }
+    );
+    res
+      .status(200)
+      .json({ data: updatedTask, message: "task updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
