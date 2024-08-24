@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TasksContext } from "../contexts/TodoContext";
 function TodoForm() {
-  const { setTodos, todos } = useContext(TasksContext);
+  const { setTodos, todos, addTask } = useContext(TasksContext);
   const [toggle, setToggle] = useState(false);
   const [task, setTask] = useState({ title: "", description: "", dueDate: "" });
   const [isFormDirty, setIsFormDirty] = useState(false);
@@ -50,13 +50,13 @@ function TodoForm() {
   };
   const notify = () => toast.error("You need to fill the title at least!");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!task.title.trim()) {
       notify();
     } else {
       const updatedTodos = [...todos, task];
-      setTodos(updatedTodos);
+      await addTask(task);
       setTask(initialTask);
       closeForm();
     }
@@ -109,7 +109,6 @@ function TodoForm() {
               <Button colorScheme="red" onClick={handleCloseForm}>
                 Cancel
               </Button>
-              <button onClick={notify}>Notify !</button>
             </HStack>
           </Stack>
           <ToastContainer

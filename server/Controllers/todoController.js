@@ -30,9 +30,9 @@ export const getAllTasks = async (req, res) => {
 };
 
 export const deleteTaskByID = async (req, res) => {
-  const { id } = req.body;
+  const { _id } = req.body;
   try {
-    const deletedTask = await Task.findByIdAndDelete(id);
+    const deletedTask = await Task.findByIdAndDelete(_id);
     res
       .status(200)
       .json({ data: deletedTask, message: "task deleted successfully" });
@@ -42,10 +42,10 @@ export const deleteTaskByID = async (req, res) => {
 };
 
 export const updateTaskById = async (req, res) => {
-  const { id, title, description, dueDate, completed } = req.body;
+  const { _id, title, description, dueDate, completed } = req.body;
   try {
     const updatedTask = await Task.findByIdAndUpdate(
-      id,
+      _id,
       { title, description, dueDate, completed },
       { new: true }
     );

@@ -16,7 +16,6 @@ export const TodoProvider = ({ children }) => {
       }
       const tasks = await response.json();
       setTodos(tasks.data);
-      console.log(tasks);
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -24,11 +23,63 @@ export const TodoProvider = ({ children }) => {
     }
   };
 
+  const updateTask = async (updatedTask) => {
+    try {
+      const response = await fetch(URL, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      });
+      if (!response.ok) {
+        throw new Error("failed to update task");
+      }
+      await fetchTasks();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const deleteTask = async (id) => {
+    try {
+      const response = await fetch(URL, {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ _id: id }),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to delete task`);
+      }
+      await fetchTasks();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const addTask = async (newTask) => {
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        body: JSON.stringify(newTask),
+        headers: { "content-type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error("failed to add a new task");
+      }
+      await fetchTasks();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, []);
   return (
-    <TasksContext.Provider value={{ todos, setTodos }}>
+    <TasksContext.Provider
+      value={{ todos, updateTask, deleteTask, isLoading, setTodos, addTask }}
+    >
       {children}
     </TasksContext.Provider>
   );

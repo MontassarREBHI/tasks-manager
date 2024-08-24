@@ -16,9 +16,10 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { TasksContext } from "../contexts/TodoContext";
+import { complex } from "framer-motion";
 
 function TodoList() {
-  const { todos, setTodos } = useContext(TasksContext);
+  const { todos, setTodos, deleteTask, updateTask } = useContext(TasksContext);
   const [isEditing, setIsEditing] = useState(null);
   const [editTask, setEditTask] = useState({
     title: "",
@@ -26,24 +27,17 @@ function TodoList() {
     dueDate: "",
   });
 
-  const handleDelete = (index) => {
-    const updatedTodos = todos.filter((_, i) => i !== index);
-    setTodos(updatedTodos);
+  const handleDelete = async (id) => {
+    await deleteTask(id);
   };
 
-  const handleSaveClick = (index) => {
-    const updatedTodos = todos.map((todo, i) =>
-      i === index ? editTask : todo
-    );
-    setTodos(updatedTodos);
+  const handleSaveClick = async () => {
+    await updateTask(editTask);
     setIsEditing(null);
   };
 
-  const toggleCompletion = (index) => {
-    const updatedTodos = todos.map((todo, i) =>
-      i === index ? { ...todo, completed: !todo.completed } : todo
-    );
-    setTodos(updatedTodos);
+  const toggleCompletion = async (task) => {
+    await updateTask({ ...task, completed: !task.completed });
   };
 
   const handleEditClick = (index) => {
@@ -69,7 +63,7 @@ function TodoList() {
         <List spacing={3}>
           {todos.map((todo, index) => (
             <ListItem
-              key={index}
+              key={todo._id}
               p={3}
               borderRadius="md"
               boxShadow="md"
@@ -99,7 +93,7 @@ function TodoList() {
                   <Button
                     colorScheme="teal"
                     size="sm"
-                    onClick={() => handleSaveClick(index)}
+                    onClick={() => handleSaveClick()}
                   >
                     Save
                   </Button>
@@ -109,7 +103,7 @@ function TodoList() {
                   <VStack alignItems="flex-start" spacing={1}>
                     <Checkbox
                       isChecked={todo.completed}
-                      onChange={() => toggleCompletion(index)}
+                      onChange={() => toggleCompletion(todo)}
                       colorScheme="teal"
                     >
                       <Text
@@ -144,7 +138,7 @@ function TodoList() {
                       variant="outline"
                       aria-label="Delete Task"
                       size="sm"
-                      onClick={() => handleDelete(index)}
+                      onClick={() => handleDelete(todo._id)}
                     />
                   </Stack>
                 </HStack>
